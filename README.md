@@ -1,21 +1,30 @@
 # 🌭 Hotdog or Not Hotdog Detector
 
-A simple **AI-based image classification web application** that detects whether an uploaded image contains a **hotdog** or **not a hotdog**.
-The application uses the **Hugging Face Inference API** and a **Vision Transformer (ViT) image classification model** to analyze uploaded images.
+An **AI-powered image classification web application** that detects whether an uploaded image contains a **hotdog** or **not a hotdog**.
+The application uses the **Hugging Face Inference API** with a **Vision Transformer (ViT)** model to analyze images.
 
-The project is built using **Python, Streamlit, and the Hugging Face API**, making it a lightweight and beginner-friendly AI project suitable for students and mini-projects.
+This project is built using **Python, Streamlit, and the Hugging Face API**, making it a lightweight and beginner-friendly AI mini project suitable for students.
 
 ---
 
-# 🚀 Features
+# 🚀 Live Demo
 
-* Upload an image (JPG, JPEG, PNG)
-* AI-powered image classification
-* Detects whether the image contains a **hotdog or not**
-* Displays prediction confidence
-* Simple web interface using **Streamlit**
-* Uses pre-trained **Vision Transformer (ViT)** model
-* Beginner-friendly project structure
+You can try the application online here:
+
+👉 **https://not-hotdog-detectorgit-62kh8p9ud4uy8i5ni6b4hi.streamlit.app/**
+
+Upload any image and the system will predict whether it contains a **hotdog or not**.
+
+---
+
+# ✨ Features
+
+* Upload images (JPG, JPEG, PNG)
+* AI-based image classification
+* Detect **Hotdog or Not Hotdog**
+* Shows **confidence score**
+* Simple and interactive **Streamlit web interface**
+* Uses a **pretrained Vision Transformer model**
 
 ---
 
@@ -23,7 +32,7 @@ The project is built using **Python, Streamlit, and the Hugging Face API**, maki
 
 * **Python**
 * **Streamlit**
-* **Requests Library**
+* **Requests**
 * **Hugging Face Inference API**
 * **Vision Transformer (ViT) Model**
 
@@ -31,7 +40,7 @@ The project is built using **Python, Streamlit, and the Hugging Face API**, maki
 
 # 📂 Project Structure
 
-```
+```id="nrfj6d"
 not-hotdog-detector
 │
 ├── app.py
@@ -41,15 +50,15 @@ not-hotdog-detector
 
 ---
 
-# ⚙️ Installation
+# ⚙️ Installation (Run Locally)
 
 ## 1️⃣ Clone the Repository
 
-```
-git clone https://github.com/Chaitanyasarkate/not-hotdog-detector.git
+```id="gj7e2j"
+git clone https://github.com/your-username/not-hotdog-detector.git
 ```
 
-```
+```id="l7j4m6"
 cd not-hotdog-detector
 ```
 
@@ -57,15 +66,14 @@ cd not-hotdog-detector
 
 ## 2️⃣ Install Dependencies
 
-```
+```id="re8x7p"
 pip install -r requirements.txt
 ```
 
-or install manually:
+Or install manually:
 
-```
-pip install streamlit
-pip install requests
+```id="clt8sn"
+pip install streamlit requests
 ```
 
 ---
@@ -79,15 +87,15 @@ pip install requests
 
 3. Generate a **Read Token**
 
-Example token:
+Example:
 
-```
+```id="45wrp3"
 hf_xxxxxxxxxxxxxxxxx
 ```
 
-4. Replace the token inside **app.py**
+4. Replace the token in **app.py**
 
-```
+```id="6vmdru"
 TOKEN = "hf_your_token_here"
 ```
 
@@ -95,15 +103,15 @@ TOKEN = "hf_your_token_here"
 
 # ▶️ Run the Application
 
-Start the Streamlit application:
+Start the Streamlit server:
 
-```
+```id="aj84m6"
 streamlit run app.py
 ```
 
 Then open your browser and visit:
 
-```
+```id="iv6g6j"
 http://localhost:8501
 ```
 
@@ -111,23 +119,24 @@ http://localhost:8501
 
 # 📸 How It Works
 
-1. User uploads an image.
-2. The image is sent to the Hugging Face inference API.
-3. The Vision Transformer model analyzes the image.
-4. The application checks whether the prediction contains **hotdog**.
-5. The result is displayed with confidence score.
+1. The user uploads an image.
+2. The image is sent to the **Hugging Face inference router API**.
+3. The **Vision Transformer model** analyzes the image.
+4. The model returns the predicted label.
+5. The system checks whether the label contains **"hotdog"**.
+6. The result is displayed with a **confidence percentage**.
 
 ---
 
 # 🧪 Example Output
 
-```
+```id="olpy7g"
 🌭 Hotdog Detected (93.21%)
 ```
 
 or
 
-```
+```id="kht2b5"
 ❌ Not Hotdog (88.45%)
 ```
 
@@ -135,20 +144,21 @@ or
 
 # 📦 requirements.txt
 
-```
+```id="e2y2h4"
 streamlit
 requests
 ```
 
 ---
 
-# 📈 Possible Improvements
+# 📈 Future Improvements
 
-* Add **camera capture**
-* Add **multiple image detection**
-* Store **prediction history**
-* Train a **custom hotdog dataset**
-* Deploy the application online
+* Camera capture support
+* Multiple image detection
+* Prediction history tracking
+* Custom-trained hotdog dataset
+* Better food classification model
+* Mobile-friendly UI improvements
 
 ---
 
@@ -156,7 +166,7 @@ requests
 
 **Chaitanya Sarkate**
 
-Student Project – AI Image Classification using Hugging Face API.
+AI Mini Project – Image Classification using Hugging Face API and Streamlit.
 
 ---
 
