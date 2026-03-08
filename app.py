@@ -1,74 +1,73 @@
 import streamlit as st
 import requests
 from PIL import Image
-import io
 
-API_URL = "https://api-inference.huggingface.co/models/nateraw/food"
+# Hugging Face Model
+API_URL = "https://router.huggingface.co/hf-inference/models/google/vit-base-patch16-224"
 
-headers = {
-    "Authorization": "Bearer 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"
-}
+# Replace with your Hugging Face token
+TOKEN = "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"
 
-history = []
+st.title("🌭 Hotdog or Not Hotdog Detector")
 
-def query(image_bytes):
-    response = requests.post(API_URL, headers=headers, data=image_bytes)
-    return response.json()
+def query(image_bytes, file_type):
 
-st.title("🌭 Hotdog / Not Hotdog Detector")
+    headers = {
+        "Authorization": f"Bearer {TOKEN}",
+        "Content-Type": file_type
+    }
 
-st.write("Upload an image or capture using camera")
+    try:
+        response = requests.post(API_URL, headers=headers, data=image_bytes)
 
-# Camera input
-camera_image = st.camera_input("Take a picture")
+        # Check API status
+        if response.status_code != 200:
+            st.error(f"API Error: {response.status_code}")
+            st.text(response.text)
+            return None
 
-# Multiple image upload
-uploaded_files = st.file_uploader(
-    "Upload Images",
-    type=["jpg","png","jpeg"],
-    accept_multiple_files=True
-)
+        # Try converting to JSON
+        try:
+            return response.json()
+        except:
+            st.error("Invalid response from API")
+            st.text(response.text)
+            return None
 
-images = []
+    except Exception as e:
+        st.error(f"Request failed: {e}")
+        return None
 
-if camera_image:
-    images.append(camera_image)
 
-if uploaded_files:
-    images.extend(uploaded_files)
+uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
 
-for img in images:
+if uploaded_file is not None:
 
-    image_bytes = img.read()
+    image = Image.open(uploaded_file)
 
-    image = Image.open(io.BytesIO(image_bytes))
-    st.image(image, width=300)
+    st.image(image, caption="Uploaded Image", width="stretch")
 
-    result = query(image_bytes)
+    uploaded_file.seek(0)
 
-    if isinstance(result, list):
+    image_bytes = uploaded_file.read()
 
-        label = result[0]["label"]
-        score = result[0]["score"]
+    result = query(image_bytes, uploaded_file.type)
 
-        confidence = round(score * 100, 2)
+    if result:
 
-        if "hotdog" in label.lower():
-
-            prediction = f"🌭 Hotdog Detected ({confidence}%)"
-            st.success(prediction)
-
+        # If model still loading
+        if isinstance(result, dict) and "error" in result:
+            st.warning(result["error"])
         else:
 
-            prediction = f"❌ Not Hotdog ({confidence}%)"
-            st.error(prediction)
+            label = result[0]["label"]
+            score = result[0]["score"]
 
-        history.append(prediction)
+            confidence = round(score * 100, 2)
 
-# Prediction history
-if history:
+            st.subheader("Prediction Result")
 
-    st.subheader("Prediction History")
-
-    for item in history:
-        st.write(item)
+            if "hotdog" in label.lower():
+                st.success(f"🌭 Hotdog Detected ({confidence}%)")
+            else:
+                st.error(f"❌ Not Hotdog ({confidence}%)")
