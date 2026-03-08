@@ -5,10 +5,12 @@ from PIL import Image
 # Hugging Face Model
 API_URL = "https://router.huggingface.co/hf-inference/models/google/vit-base-patch16-224"
 
-# Replace with your Hugging Face token
-TOKEN = "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"
+TOKEN = st.secrets["HF_TOKEN"]
+
+st.set_page_config(page_title="Hotdog Detector", page_icon="🌭")
 
 st.title("🌭 Hotdog or Not Hotdog Detector")
+st.write("Upload an image to check if it contains a hotdog.")
 
 def query(image_bytes, file_type):
 
@@ -20,13 +22,11 @@ def query(image_bytes, file_type):
     try:
         response = requests.post(API_URL, headers=headers, data=image_bytes)
 
-        # Check API status
         if response.status_code != 200:
             st.error(f"API Error: {response.status_code}")
             st.text(response.text)
             return None
 
-        # Try converting to JSON
         try:
             return response.json()
         except:
@@ -51,23 +51,44 @@ if uploaded_file is not None:
 
     image_bytes = uploaded_file.read()
 
-    result = query(image_bytes, uploaded_file.type)
+    with st.spinner("Analyzing image..."):
+        result = query(image_bytes, uploaded_file.type)
 
     if result:
 
-        # If model still loading
+        # If API returned error
         if isinstance(result, dict) and "error" in result:
             st.warning(result["error"])
+
         else:
-
-            label = result[0]["label"]
-            score = result[0]["score"]
-
-            confidence = round(score * 100, 2)
 
             st.subheader("Prediction Result")
 
-            if "hotdog" in label.lower():
+            # Take top predictions
+            top_predictions = result[:5]
+
+            labels = [item["label"].lower() for item in top_predictions]
+
+            hotdog_keywords = ["hotdog", "hot dog", "sausage", "bratwurst"]
+
+            is_hotdog = any(
+                keyword in label
+                for label in labels
+                for keyword in hotdog_keywords
+            )
+
+            confidence = round(top_predictions[0]["score"] * 100, 2)
+
+            # Confidence progress bar
+            st.progress(int(confidence))
+
+            if is_hotdog:
                 st.success(f"🌭 Hotdog Detected ({confidence}%)")
             else:
                 st.error(f"❌ Not Hotdog ({confidence}%)")
+
+            # Show predictions
+            st.subheader("Top Predictions")
+
+            for item in top_predictions:
+                st.write(f"{item['label']} : {round(item['score']*100,2)}%")
