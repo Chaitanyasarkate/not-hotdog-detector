@@ -6,7 +6,7 @@ from PIL import Image
 API_URL = "https://router.huggingface.co/hf-inference/models/google/vit-base-patch16-224"
 
 # Replace with your Hugging Face token
-TOKEN = "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"
+TOKEN = "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"
 
 st.title("🌭 Hotdog or Not Hotdog Detector")
 
