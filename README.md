@@ -11,7 +11,7 @@ This project is built using **Python, Streamlit, and the Hugging Face API**, mak
 
 You can try the application online here:
 
-👉 **https://3s8jczmt7trqso76rfg2bi.streamlit.app/**
+👉 **https://bny5bvyqozzbzztobonmhb.streamlit.app/**
 
 Upload any image and the system will predict whether it contains a **hotdog or not**.
 
