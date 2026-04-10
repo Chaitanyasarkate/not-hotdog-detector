@@ -117,6 +117,7 @@ http://localhost:8501
 
 ---
 
+
 # 📸 How It Works
 
 1. The user uploads an image.
@@ -127,6 +128,7 @@ http://localhost:8501
 6. The result is displayed with a **confidence percentage**.
 
 ---
+
 
 # 🧪 Example Output
 
