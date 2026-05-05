@@ -1,4 +1,6 @@
+
 # 🌭 Hotdog or Not Hotdog Detector
+
 
 An **AI-powered image classification web application** that detects whether an uploaded image contains a **hotdog** or **not a hotdog**.
 The application uses the **Hugging Face Inference API** with a **Vision Transformer (ViT)** model to analyze images.
@@ -7,7 +9,9 @@ This project is built using **Python, Streamlit, and the Hugging Face API**, mak
 
 ---
 
+
 # 🚀 Live Demo
+
 
 You can try the application online here:
 
@@ -18,6 +22,7 @@ Upload any image and the system will predict whether it contains a **hotdog or n
 ---
 
 # ✨ Features
+
 
 * Upload images (JPG, JPEG, PNG)
 * AI-based image classification
