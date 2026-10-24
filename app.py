@@ -35,8 +35,10 @@ if uploaded_file is not None:
 
     uploaded_file.seek(0)
 
+    image_bytes = uploaded_file.read()
+
     with st.spinner("Analyzing image..."):
-        result = query(uploaded_file)
+        result = query(image_bytes)
 
     if result:
 
