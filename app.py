@@ -1,9 +1,9 @@
 import streamlit as st
-import requests
+from huggingface_hub import InferenceClient
 from PIL import Image
 
 # Hugging Face Model
-API_URL = "https://api-inference.huggingface.co/models/google/vit-base-patch16-224"
+MODEL_ID = "google/vit-base-patch16-224"
 
 TOKEN = st.secrets["HF_TOKEN"]
 
@@ -12,28 +12,14 @@ st.set_page_config(page_title="Hotdog Detector", page_icon="🌭")
 st.title("🌭 Hotdog or Not Hotdog Detector")
 st.write("Upload an image to check if it contains a hotdog.")
 
-def query(image_bytes, file_type):
+# Initialize the Hugging Face Inference Client
+client = InferenceClient(token=TOKEN)
 
-    headers = {
-        "Authorization": f"Bearer {TOKEN}",
-        "Content-Type": file_type
-    }
-
+def query(image):
     try:
-        response = requests.post(API_URL, headers=headers, data=image_bytes)
-
-        if response.status_code != 200:
-            st.error(f"API Error: {response.status_code}")
-            st.text(response.text)
-            return None
-
-        try:
-            return response.json()
-        except:
-            st.error("Invalid response from API")
-            st.text(response.text)
-            return None
-
+        result = client.image_classification(image, model=MODEL_ID)
+        # Convert to list of dicts with 'label' and 'score' keys
+        return [{"label": item.label, "score": item.score} for item in result]
     except Exception as e:
         st.error(f"Request failed: {e}")
         return None
@@ -49,10 +35,8 @@ if uploaded_file is not None:
 
     uploaded_file.seek(0)
 
-    image_bytes = uploaded_file.read()
-
     with st.spinner("Analyzing image..."):
-        result = query(image_bytes, uploaded_file.type)
+        result = query(uploaded_file)
 
     if result:
 
